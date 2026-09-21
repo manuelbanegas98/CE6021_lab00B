@@ -87,7 +87,28 @@ def run_aliasing_demo(pattern):
                              (sigma=SIGMA) first, then interpolated by the
                              same SCALE_FACTOR.
     """
-    raise NotImplementedError("Implement this method")
+    ci = ConvolutionInterpolator()
+
+    aliased = ci.interpolate(
+        pattern,
+        scale_factor=SCALE_FACTOR,
+        order=ORDER
+    )
+
+    kernel = ci.gaussian_kernel_2d(SIGMA)
+
+    filtered_pattern = ci.convolve(
+        pattern,
+        kernel
+    )
+
+    filtered = ci.interpolate(
+        filtered_pattern,
+        scale_factor=SCALE_FACTOR,
+        order=ORDER
+    )
+
+    return aliased, filtered
 
 def evaluate():
     print("Generating chirp test pattern...")
